@@ -1,0 +1,231 @@
+/* App.css */
+/* =============== Variables & Base =============== */
+:root {
+    --primary: #5a67d8;
+    --primary-dark: #434190;
+    --primary-light: #7f9cf5;
+    --bg-gradient-start: #f8fafc;
+    --bg-gradient-end: #e2e8f0;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-light: #4a5568;
+    --border-radius: 12px;
+    --transition: 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 90%;
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+}
+
+/* =============== Headings & Text =============== */
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    color: var(--primary-dark);
+}
+
+h1::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    display: block;
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-main);
+}
+
+/* =============== Forms =============== */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    background-color: #f7fafc;
+    font-size: 1rem;
+    transition: border-color var(--transition), background-color var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(122, 115, 243, 0.2);
+}
+
+/* =============== Buttons =============== */
+.btn {
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow var(--transition);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 6px 12px rgba(90, 103, 216, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 8px 16px rgba(67, 65, 144, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(67, 65, 144, 0.2);
+}
+
+/* =============== Divider =============== */
+hr {
+    border: none;
+    height: 2px;
+    background: var(--primary-light);
+    margin: 2.5rem 0;
+    border-radius: var(--border-radius);
+}
+
+/* =============== Post Cards =============== */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+    flex: 1;
+}
+
+.card ul li {
+    background: #edf2f7;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+    transition: background var(--transition);
+}
+
+.card ul li::before {
+    content: "💬";
+    margin-right: 0.5rem;
+}
+
+.card ul li:hover {
+    background: #e2e8f0;
+}
+
+/* =============== Layout Helpers =============== */
+.d-flex {
+    display: flex !important;
+}
+
+.flex-row {
+    flex-direction: row !important;
+}
+
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+/* =============== Responsive =============== */
+@media (max-width: 768px) {
+    .container {
+        margin: 2rem auto;
+    }
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2rem;
+    }
+    .form-control {
+        padding: 0.6rem 0.8rem;
+    }
+}
+
