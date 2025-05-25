@@ -1,6 +1,6 @@
 # Micro-Blog Application (MERN Microservices Architecture)
 
-This is a Micro-Blog project structured using microservices architecture with Node.js for each service and a React-based client.
+This is a Micro-Blog project structured using microservices architecture with Node.js for each service using event-bus and a React-based client.
 
 ## 📁 Project Structure
 
