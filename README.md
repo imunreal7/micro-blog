@@ -1,72 +1,156 @@
-# Micro-Blog Application (MERN Microservices Architecture)
+# Micro-Blog Application (MERN Microservices Architecture with Docker, Kubernetes, and Skaffold)
 
-This is a Micro-Blog project structured using microservices architecture with Node.js for each service using event-bus and a React-based client.
+This project is a Micro-Blog application structured with a microservices architecture (Node.js for backend services and a React-based frontend). It uses Docker for containerization, Kubernetes for orchestration, and Skaffold for streamlined local development.
+
+---
 
 ## 📁 Project Structure
 
-```
 micro-blog/
-├── client/           # React frontend
-│   └── src/
-├── comments/         # Comments service (Node.js + Express)
-├── event-bus/        # Event bus service for event-driven communication
-├── moderation/       # Moderation service to check inappropriate content
-├── posts/            # Posts service (Node.js + Express)
-├── query/            # Query service to aggregate data for frontend
-└── .gitignore        # Git ignore rules
-```
+├── client/ # React frontend
+├── comments/ # Comments service (Node.js + Express)
+├── event-bus/ # Event bus service for event-driven communication
+├── moderation/ # Moderation service to check inappropriate content
+├── posts/ # Posts service (Node.js + Express)
+├── query/ # Query service to aggregate data for frontend
+├── infra/ # Kubernetes manifests and configuration
+│ └── k8s/
+├── skaffold.yaml # Skaffold configuration
+└── .gitignore # Git ignore rules
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
--   Node.js (v14+)
--   npm or yarn
+-   [Docker](https://www.docker.com/) (latest version recommended)
+-   [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+-   [kubectl](https://kubernetes.io/docs/tasks/tools/)
+-   [Skaffold](https://skaffold.dev/)
 
-### Setup Instructions
+---
 
-1. **Install dependencies** for each service and client:
+### 🐳 Build & Deploy with Skaffold
 
-    ```bash
-    cd client && npm install
-    cd ../comments && npm install
-    cd ../event-bus && npm install
-    cd ../moderation && npm install
-    cd ../posts && npm install
-    cd ../query && npm install
-    ```
-
-2. **Run all services** (in separate terminals or using a process manager like `concurrently`, `pm2`, or Docker):
+1. **Start Minikube:**
 
     ```bash
-    # Example: Run each service individually
-    cd comments && npm start
-    cd event-bus && npm start
-    cd moderation && npm start
-    cd posts && npm start
-    cd query && npm start
-    cd client && npm start
+    minikube start
     ```
 
-### Environment Variables
+2. **Point Docker to Minikube’s Docker daemon:**
 
-Each service may use environment variables (e.g., for port numbers or DB connections). Create `.env` files as needed.
+    ```bash
+    eval $(minikube docker-env)
+    ```
 
-### Available Scripts (in each folder)
+3. **Run the entire stack with Skaffold:**
 
--   `npm start` - Start the service
--   `npm run dev` - Run with nodemon (if configured)
+    ```bash
+    skaffold dev
+    ```
+
+    This will:
+
+    - Build all images (client and backend services) locally.
+    - Deploy them to your Minikube Kubernetes cluster.
+    - Watch for changes and rebuild/redeploy automatically.
+
+---
+
+### 🌐 Accessing the App
+
+1. **Hosts file entry**: To access your app via the configured Ingress (e.g., `posts.com`):
+
+    ```bash
+    echo "$(minikube ip) posts.com" | sudo tee -a /etc/hosts
+    ```
+
+2. **Visit the frontend**:
+
+    ```
+    http://posts.com
+    ```
+
+3. **Example backend API endpoints**:
+
+    ```
+    http://posts.com/posts
+    http://posts.com/posts/create
+    ```
+
+---
+
+### ⚙️ Kubernetes Manifests
+
+All manifests are located in:
+
+infra/k8s/
+
+-   **Deployments** for each service
+-   **Services** (`ClusterIP`, `NodePort`)
+-   **Ingress** for routing traffic to services
+
+---
+
+### 🔧 Development Tips
+
+-   Use Skaffold’s live-reload feature for faster iterations.
+-   For direct access to pods:
+
+    ```bash
+    kubectl get pods
+    kubectl exec -it <pod-name> -- sh
+    ```
+
+-   View logs:
+
+    ```bash
+    kubectl logs <pod-name>
+    ```
+
+---
+
+### 📦 Building Images Manually (optional)
+
+```bash
+# Example for client service
+cd client
+docker build -t client-srv:latest .
+```
+
+Load it into Minikube:
+
+```bash
+eval $(minikube docker-env)
+docker build -t client-srv:latest .
+```
+
+---
 
 ## 🧱 Services Overview
 
--   **Client**: React application to interact with posts and comments.
--   **Posts**: Create and store blog posts.
--   **Comments**: Add comments to posts.
--   **Event Bus**: Handle communication between microservices using events.
--   **Moderation**: Filter inappropriate words in comments.
--   **Query**: Aggregate posts and comments for the client.
+**Client**: React frontend for users to create posts and add comments.
+**Posts**: Node.js service for creating and managing blog posts.
+**Comments**: Node.js service for adding comments to posts.
+**Event Bus**: Facilitates event-driven communication between services.
+**Moderation**: Filters inappropriate words from comments.
+**Query**: Aggregates posts and comments for frontend consumption.
+
+---
 
 ## 📝 License
 
 This project is open-source and free to use.
+
+---
+
+## 👥 Contributing
+
+PRs and issues are welcome! Let’s collaborate to make it even better.
+
+---
+
+## ✨ Happy Hacking
 
